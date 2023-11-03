@@ -51,7 +51,7 @@ public class FramePrincipal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 959, 486);
+		frame.setBounds(100, 100, 1199, 712);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -123,18 +123,12 @@ public class FramePrincipal {
 				String aristaDerecha = inputAristaDerecha.getText();
 				String aristaIzquierda = inputExtremoIzquierdo.getText();
 				if(arista != null && aristaDerecha != null && aristaIzquierda != null) {
-					System.out.println("Arista: " + arista);
+					System.out.println("Arista: " + arista + " Arista Derecha: " + aristaDerecha + " Arista Izquierda: " + aristaIzquierda);
 				}
 			}
 		});
 
-
-
 		panelAgregarVertices.add(btnAgregarAlGrafo);
-
-
-
-
 
 		//***************** FIN PANEL AGREGAR VERTICES *************
 
@@ -143,7 +137,7 @@ public class FramePrincipal {
 		JPanel panelConjuntoMinimoDominante = new JPanel();
 		panelConjuntoMinimoDominante.setBackground(new Color(255, 234, 159));
 		panelConjuntoMinimoDominante.setBorder(new LineBorder(new Color(255, 128, 64)));
-		panelConjuntoMinimoDominante.setBounds(557, 87, 316, 322);
+		panelConjuntoMinimoDominante.setBounds(713, 87, 437, 528);
 		frame.getContentPane().add(panelConjuntoMinimoDominante);
 
 		JLabel lblNewLabel_2 = new JLabel("New label");
@@ -151,8 +145,13 @@ public class FramePrincipal {
 
 		JLabel lblNewLabel_1_1 = new JLabel("Conjunto Dominante Minimo");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 21));
-		lblNewLabel_1_1.setBounds(557, 55, 316, 33);
+		lblNewLabel_1_1.setBounds(777, 55, 316, 33);
 		frame.getContentPane().add(lblNewLabel_1_1);
+		
+		JPanel panelVerGrafo = new JPanel();
+		panelVerGrafo.setBounds(468, 87, 207, 528);
+		frame.getContentPane().add(panelVerGrafo);
+		panelVerGrafo.setLayout(null);
 
 		//*************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
 
