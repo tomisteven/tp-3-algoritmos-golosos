@@ -4,7 +4,6 @@ import java.awt.Point*; */
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Grafo {
@@ -20,7 +19,7 @@ public class Grafo {
 			}
 		}
 	}
-	public Grafo(ArrayList<Arista> aristas) 
+	public Grafo(ArrayList<Arista> aristas)
 	{
 		A = new int[aristas.size()][aristas.size()] ;
 		agregarArista(aristas);
@@ -28,10 +27,10 @@ public class Grafo {
 
 	private void agregarArista(ArrayList<Arista> aristas) {
 		for (int f = 0 ; f < tamano(); f++) {
-			agregarArista(aristas.get(f).getExtemoIzq(), aristas.get(f).getExtremoDer());;
+			agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
 			;
 
-			
+
 		}
 	}
 	// Agregado de aristas

@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JButton;
@@ -147,7 +146,7 @@ public class FramePrincipal {
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 21));
 		lblNewLabel_1_1.setBounds(777, 55, 316, 33);
 		frame.getContentPane().add(lblNewLabel_1_1);
-		
+
 		JPanel panelVerGrafo = new JPanel();
 		panelVerGrafo.setBounds(468, 87, 207, 528);
 		frame.getContentPane().add(panelVerGrafo);

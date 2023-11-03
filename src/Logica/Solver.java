@@ -8,7 +8,6 @@ public class Solver {
     private Grafo _grafo;
 
     // inicio de la lista de aristas
-    private NodoArista inicio;
 
     // La mejor clique hallada hasta el momento
     private Set<Integer> _mayor;
@@ -70,20 +69,15 @@ public class Solver {
         return _grafo;
     }
 
-    public void imprimirListaAristas() {
-        NodoArista aux = inicio;
-        while (aux != null) {
-            System.out.println(aux.getArista().getOrigen().getNombre() + " -> " + aux.getArista().getDestino().getNombre() + " : " + aux.getArista().getPeso());
-            aux = aux.getSiguiente();
-        }
-    }
+    
+    
 
     public static void main(String[] args) {
         Grafo grafo = new Grafo(3);
 
         Solver solver = new Solver(grafo);
         solver.resolver();
-        solver.imprimirListaAristas();
+        
 
         System.out.println(solver.getGenerados() + " subconjuntos generados");
     }

@@ -2,38 +2,19 @@ package Logica;
 
 public class Arista {
 
-    private NodoGrafo origen;
-    private NodoGrafo destino;
-    private int peso;
+    private int _extremoDer;
+    private int _extremoIzq;
 
-    public Arista(NodoGrafo origen, NodoGrafo destino, int peso) {
-        this.origen = origen;
-        this.destino = destino;
-        this.peso = peso;
+    public Arista(int extremoIzq, int extremoDer) {
+        _extremoIzq = extremoIzq;
+        _extremoDer = extremoDer;
     }
 
-    public NodoGrafo getOrigen() {
-        return origen;
+    public int getExtremoIzq() {
+        return _extremoIzq;
     }
 
-    public void setOrigen(NodoGrafo origen) {
-        this.origen = origen;
+    public int getExtremoDer() {
+        return _extremoDer;
     }
-
-    public NodoGrafo getDestino() {
-        return destino;
-    }
-
-    public void setDestino(NodoGrafo destino) {
-        this.destino = destino;
-    }
-
-    public int getPeso() {
-        return peso;
-    }
-
-    public void setPeso(int peso) {
-        this.peso = peso;
-    }
-
 }
