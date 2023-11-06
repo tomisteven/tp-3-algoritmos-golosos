@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+<<<<<<< HEAD
 class GrafoPrincipal {
 	private HashMap<Integer, HashSet<Integer>> _matriz;
 
@@ -20,8 +21,48 @@ class GrafoPrincipal {
 		validarVertice(vertice);
 		existeVecino(vertice,vecinoNuevo);
 		agregar(vertice,vecinoNuevo);
+=======
+public class GrafoPrincipal {
+    private boolean[][] matrizAdyacencia;
+    private int numVertices;
+    private ArrayList<Integer> _vertices;
 
-	}
+    public GrafoPrincipal(ArrayList<SolverArista> aristas) {
+        _vertices = new ArrayList<Integer>();
+        matrizAdyacencia = new boolean[aristas.size()][aristas.size()];
+        agregarArista(aristas);
+    }
+
+    public void agregarVertices() {
+        _vertices.add(null);
+    }
+
+    private void agregarArista(ArrayList<SolverArista> aristas) {
+        for (int f = 0; f < aristas.size(); f++) {
+            /*
+             * agregarArista(aristas.get(f).getExtremoIzq(),
+             * aristas.get(f).getExtremoDer());;
+             */
+            ;
+>>>>>>> 37d08358d73eb1a9b0f2e89365c789ba179fee50
+
+        }
+    }
+
+    public void agregarVertice(int vertice) {
+        if (_vertices.contains(_vertices.get(vertice))) {
+            System.out.println("El vertice ya existe");
+        } else {
+            _vertices.add(vertice);
+        }
+    }
+
+    /* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
+    public void agregarArista(int fila, int col) {
+
+        matrizAdyacencia[fila][col] = true;
+
+    }
 
 	private void agregar(int vertice, int vecinoNuevo) {
 		_matriz.get(vertice).add(vecinoNuevo);
@@ -93,8 +134,13 @@ class GrafoPrincipal {
 			}
 		}
 
+<<<<<<< HEAD
 		return mejorVertice;
 	}
+=======
+    public static void main(String[] args) {
+        ArrayList<SolverArista> aristas = new ArrayList<SolverArista>();
+>>>>>>> 37d08358d73eb1a9b0f2e89365c789ba179fee50
 
 	public int tamanio() {
 		return _matriz.size();

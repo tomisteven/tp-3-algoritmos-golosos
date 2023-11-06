@@ -27,7 +27,11 @@ public class Grafo {
 
 	private void agregarArista(ArrayList<SolverArista> aristas) {
 		for (int f = 0 ; f < tamano(); f++) {
+<<<<<<< HEAD
 			//agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
+=======
+			/* agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());; */
+>>>>>>> 37d08358d73eb1a9b0f2e89365c789ba179fee50
 			;
 
 

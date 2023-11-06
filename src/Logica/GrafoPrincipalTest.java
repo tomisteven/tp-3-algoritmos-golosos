@@ -10,7 +10,7 @@ class GrafoPrincipalTest {
 		vertices.agregarVertice(9);
 		vertices.agregarVertice(5);
 		GrafoPrincipal g = new GrafoPrincipal(vertices);
-		assertTrue(false);
+		assertTrue(g.existeVertice(2));
 	}
 
 }

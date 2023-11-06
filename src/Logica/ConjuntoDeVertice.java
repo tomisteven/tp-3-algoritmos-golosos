@@ -36,6 +36,14 @@ public class ConjuntoDeVertice {
 
 		return ret;
 	}
+
+	public void imprimirGrafo() {
+		for (int i = 0; i < _vertices.size(); i++) {
+		System.out.println(_vertices.get(i));
+		}
+	}
+
+
 	public int tamanio() {
 		return _vertices.size();
 	}
