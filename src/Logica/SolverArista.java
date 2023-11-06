@@ -20,6 +20,9 @@ public class SolverArista {
 
 	public void ingresarAristas(ArrayList<Arista> aristas) {
 		_aristas = aristas;
+		for (Arista arista : aristas) {
+			g.agregarVecino(arista.getExtemoIzq(), arista.getExtremoDer());
+		}
 	}
 
 	public void agregarAristaEntre(int vertice1, int vertice2) {
