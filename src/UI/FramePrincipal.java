@@ -23,7 +23,7 @@ public class FramePrincipal {
 	private JTextField inputArista;
 	private JTextField inputAristaDerecha;
 	private JTextField inputExtremoIzquierdo;
-private ArrayList<Integer> _vertices;
+	private ArrayList<Integer> _vertices;
 	/**
 	 * Launch the application.
 	 */
