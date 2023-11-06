@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import logica.Vertice;
+import Logica.Vertice;
 
 public class VerticeTest {
 	 @Test
