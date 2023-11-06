@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Vertice {
 
-
 	private ArrayList<Integer> _vertices;
 
 	public Vertice() {
@@ -25,6 +24,7 @@ public class Vertice {
 	public List<Integer> conjuntoVertices() {
 		return verticesClonados();
 	}
+
 	public boolean pertenece(int elemento) {
 		return _vertices.contains(elemento);
 	}
@@ -40,10 +40,9 @@ public class Vertice {
 
 	public void imprimirGrafo() {
 		for (int i = 0; i < _vertices.size(); i++) {
-		System.out.println(_vertices.get(i));
+			System.out.println(_vertices.get(i));
 		}
 	}
-
 
 	public int tamanio() {
 		return _vertices.size();

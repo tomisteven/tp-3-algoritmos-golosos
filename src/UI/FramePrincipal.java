@@ -197,8 +197,8 @@ public class FramePrincipal {
 		tableVerVertices.setModel(model_verVertices);
 		tableVerVertices.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableVerVertices.setRowHeight(20);
-		model_verVertices.addColumn("Derecha");
-		model_verVertices.addColumn("Izquierda");
+/* 		model_verVertices.addColumn("Derecha");
+		model_verVertices.addColumn("Izquierda"); */
 
 		scrollVerVertices.setViewportView(tableVerVertices);
 		scrollVerVertices.repaint();
