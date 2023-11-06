@@ -7,21 +7,25 @@ import java.util.Set;
 public class GrafoPrincipal {
     private boolean[][] matrizAdyacencia;
     private int numVertices;
-	private ArrayList<Integer> _vertices;
+    private ArrayList<Integer> _vertices;
 
-    public GrafoPrincipal(ArrayList<SolverArista> aristas) 
-	{
-    	_vertices = new ArrayList<Integer>();
-		matrizAdyacencia = new boolean[aristas.size()][aristas.size()] ;
-		agregarArista(aristas);
-	}
-    public void agregarVertices() {
-    	_vertices.add(null);
+    public GrafoPrincipal(ArrayList<SolverArista> aristas) {
+        _vertices = new ArrayList<Integer>();
+        matrizAdyacencia = new boolean[aristas.size()][aristas.size()];
+        agregarArista(aristas);
     }
-	private void agregarArista(ArrayList<SolverArista> aristas) {
-		for (int f = 0 ; f < aristas.size(); f++) {
-			agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
-			;
+
+    public void agregarVertices() {
+        _vertices.add(null);
+    }
+
+    private void agregarArista(ArrayList<SolverArista> aristas) {
+        for (int f = 0; f < aristas.size(); f++) {
+            /*
+             * agregarArista(aristas.get(f).getExtremoIzq(),
+             * aristas.get(f).getExtremoDer());;
+             */
+            ;
 
         }
     }
@@ -109,13 +113,7 @@ public class GrafoPrincipal {
     // main
 
     public static void main(String[] args) {
-    	ArrayList<SolverArista> aristas = new ArrayList<SolverArista>();
-    	aristas.add(new SolverArista(1,2));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
+        ArrayList<SolverArista> aristas = new ArrayList<SolverArista>();
 
         GrafoPrincipal grafo = new GrafoPrincipal(aristas);
 

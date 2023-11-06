@@ -7,17 +7,24 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
-import Logica.GrafoPrincipal;
+import org.eclipse.swt.events.KeyAdapter;
+
+import Logica.ConjuntoDeVertice;
 
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import java.awt.CardLayout;
 
 public class FramePrincipal {
 
@@ -25,12 +32,10 @@ public class FramePrincipal {
 	private JTextField inputArista;
 	private JTextField inputAristaDerecha;
 	private JTextField inputExtremoIzquierdo;
+	private DefaultTableModel model_verVertices;
 
-
-
-
-	/* GrafoPrincipal grafoPrincipal = new GrafoPrincipal(null); */
-
+	private ConjuntoDeVertice _vertices = new ConjuntoDeVertice();
+	private JTable tableVerVertices;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -78,6 +83,18 @@ public class FramePrincipal {
 		lblAgregarVertices.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 23));
 		lblAgregarVertices.setBounds(161, 54, 207, 33);
 		frame.getContentPane().add(lblAgregarVertices);
+
+		JButton btnAgregarVertice = new JButton("Agregar Vertice");
+		btnAgregarVertice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// AGREGAMOS VERTICES
+				_vertices.agregarVertice(Integer.parseInt(inputArista.getText()));
+				inputArista.setText("");
+			}
+		});
+
+		btnAgregarVertice.setBounds(171, 80, 113, 26);
+		panelAgregarVertices.add(btnAgregarVertice);
 
 		// --------
 
@@ -129,10 +146,6 @@ public class FramePrincipal {
 
 		panelAgregarVertices.add(btnAgregarAlGrafo);
 
-		JButton btnNewButton = new JButton("Agregar Vertice");
-		btnNewButton.setBounds(171, 80, 113, 26);
-		panelAgregarVertices.add(btnNewButton);
-
 		JLabel lblNewLabel_1_3 = new JLabel("Vertice");
 		lblNewLabel_1_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3.setBounds(67, 50, 53, 23);
@@ -153,13 +166,12 @@ public class FramePrincipal {
 		lblNewLabel_1_1.setBounds(729, 57, 243, 33);
 		frame.getContentPane().add(lblNewLabel_1_1);
 
+		/* ------ PANEL VER VERTICES */
 		JPanel panelVerGrafo = new JPanel();
 		panelVerGrafo.setBackground(new Color(255, 128, 128));
 		panelVerGrafo.setBounds(468, 87, 207, 322);
 		frame.getContentPane().add(panelVerGrafo);
 		panelVerGrafo.setLayout(null);
-
-		/* ------ PANEL VER VERTI */
 
 		JButton btnNewButton_1 = new JButton("Ver vertices");
 		btnNewButton_1.setBackground(new Color(0, 128, 255));
@@ -167,10 +179,46 @@ public class FramePrincipal {
 		btnNewButton_1.setBounds(21, 11, 176, 23);
 		panelVerGrafo.add(btnNewButton_1);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(21, 54, 176, 257);
-		panelVerGrafo.add(panel);
-		panel.setLayout(null);
+		// -------- scroll y tabla de vertices *-----
+		JPanel panelVerVertices = new JPanel();
+		panelVerVertices.setBounds(31, 45, 151, 266);
+		panelVerGrafo.add(panelVerVertices);
+		panelVerVertices.setLayout(new CardLayout(0, 0));
+
+		JScrollPane scrollVerVertices = new JScrollPane();
+		panelVerVertices.add(scrollVerVertices, "name_15177348750000");
+
+		tableVerVertices = new JTable();
+		tableVerVertices.setBackground(new Color(255, 255, 255));
+		tableVerVertices.setForeground(new Color(0, 0, 0));
+		tableVerVertices.setFont(new Font("Tahoma", Font.BOLD, 13));
+		tableVerVertices.setFillsViewportHeight(true);
+		tableVerVertices.setCellSelectionEnabled(true);
+		model_verVertices = new DefaultTableModel(new Object[][] {}, new String[] { "Vertice" });
+		tableVerVertices.setModel(model_verVertices);
+		tableVerVertices.getColumnModel().getColumn(0).setPreferredWidth(100);
+		tableVerVertices.setRowHeight(20);
+		model_verVertices.addColumn("Derecha");
+		model_verVertices.addColumn("Izquierda");
+
+		scrollVerVertices.setViewportView(tableVerVertices);
+		scrollVerVertices.repaint();
+
+		// --------
+		scrollVerVertices.setColumnHeaderView(tableVerVertices);
+		btnNewButton_1.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// VEMOS LOS VERTICES
+				_vertices.imprimirGrafo();
+				for (Integer vertice : _vertices.conjuntoVertices()) {
+					model_verVertices.addRow(new Object[] { "Vertice: " + vertice });
+				}
+				panelAgregarVertices.repaint();
+			}
+		});
+
+		// por cada vertice que haya en el conjunto de vertices, lo agregamos al panel
+		// y le damos un nombre
 
 		// *************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
 
