@@ -30,16 +30,16 @@ public class Grafo {
 	}
 
 	private void existeVecino(int vertice, int vecinoNuevo) {
-		if (vecinos(vertice).contains(vecinoNuevo) ) {
-			throw new RuntimeException("valor de vertice invalido");
+		if (vecinos(vertice).contains(vecinoNuevo)) {
+			throw new RuntimeException("valor de vertice invalido, ya existe vecino");
 		}
 	}
 
 	void validarVertice(int vertice) {
-		if (!vertices().contains(vertice) ) {
+		if (!vertices().contains(vertice)) {
 			throw new RuntimeException("valor de vertice invalido");
 		}
-		if (vecinos(vertice).contains(vertice) ) {
+		if (vecinos(vertice).contains(vertice)) {
 			throw new RuntimeException("No puede existir loops");
 		}
 	}
@@ -61,9 +61,9 @@ public class Grafo {
 			cubiertos[mejorVertice] = true;
 
 			for (int i = 0; i < tamanio(); i++) {
-//				if (matrizAdyacencia[mejorVertice][i]) {
-//					cubiertos[i] = true;
-//				}
+				// if (matrizAdyacencia[mejorVertice][i]) {
+				// cubiertos[i] = true;
+				// }
 			}
 		}
 
@@ -104,9 +104,9 @@ public class Grafo {
 	private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
 		int count = 0;
 		for (int i = 0; i < tamanio(); i++) {
-//			if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
-//				count++;
-//			}
+			// if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
+			// count++;
+			// }
 		}
 		return count;
 	}
@@ -116,16 +116,17 @@ public class Grafo {
 	}
 
 	public ArrayList<Integer> vecinos(int vertice) {
-		// TODO Auto-generated method stub
+
 		return _matriz.get(vertice);
 	}
+
 	public int cantidadVecinos(int vertice) {
 		return vecinos(vertice).size();
 	}
 
 	public ArrayList<Integer> vertices() {
 		ArrayList<Integer> vertices = new ArrayList<Integer>();
-		for (Integer vertice: _matriz.keySet()) {
+		for (Integer vertice : _matriz.keySet()) {
 			vertices.add(vertice);
 		}
 		return vertices;
@@ -141,26 +142,27 @@ public class Grafo {
 		}
 	}
 
-	public static void main(String[] args) {
-		Vertice vertices = new Vertice();
-		vertices.agregarVertice(1);
-		vertices.agregarVertice(2);
-		vertices.agregarVertice(3);
-		vertices.agregarVertice(4);
-		vertices.agregarVertice(5);
-
-		Grafo grafo = new Grafo(vertices);
-		grafo.agregarVecino(1, 2);
-		grafo.agregarVecino(1, 3);
-		grafo.agregarVecino(1, 4);
-		grafo.agregarVecino(1, 5);
-		grafo.agregarVecino(2, 3);
-		grafo.agregarVecino(2, 4);
-		grafo.agregarVecino(4, 5);
-		grafo.agregarVecino(5, 3);
-
-		grafo.imprimirGrafoCompleto();
-		System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
-	}
-
+	/*
+	 * public static void main(String[] args) {
+	 * Vertice vertices = new Vertice();
+	 * vertices.agregarVertice(1);
+	 * vertices.agregarVertice(2);
+	 * vertices.agregarVertice(3);
+	 * vertices.agregarVertice(4);
+	 * vertices.agregarVertice(5);
+	 *
+	 * Grafo grafo = new Grafo(vertices);
+	 * grafo.agregarVecino(1, 2);
+	 * grafo.agregarVecino(1, 3);
+	 * grafo.agregarVecino(1, 4);
+	 * grafo.agregarVecino(1, 5);
+	 * grafo.agregarVecino(2, 3);
+	 * grafo.agregarVecino(2, 4);
+	 * grafo.agregarVecino(4, 5);
+	 * grafo.agregarVecino(5, 3);
+	 *
+	 * grafo.imprimirGrafoCompleto();
+	 * System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
+	 * }
+	 */
 }

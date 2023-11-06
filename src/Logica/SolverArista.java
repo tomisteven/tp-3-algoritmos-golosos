@@ -14,8 +14,15 @@ public class SolverArista {
 		g = new Grafo(vertices);
 	}
 
+
+
 	public void agregarVertices(Vertice vertices) {
 		_vertices = vertices;
+	}
+
+	public void agregarVecinos(int vertice, int vecino) {
+		// buscamos el vertice y le agregamos el vecino
+		g.agregarVecino(vertice, vecino);
 	}
 
 	public void ingresarAristas(ArrayList<Arista> aristas) {
@@ -30,8 +37,14 @@ public class SolverArista {
 		;
 	}
 
+	public void imprimirGrafo() {
+		g.imprimirGrafoCompleto();
+	}
+
 	public Vertice getVertices() {
 		return _vertices;
 	}
+
+
 
 }

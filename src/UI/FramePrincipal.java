@@ -20,19 +20,20 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Logica.Arista;
+import Logica.SolverArista;
 import Logica.Vertice;
 
 public class FramePrincipal {
 
 	private JFrame frame;
 	private JTextField inputArista;
-	private JTextField inputAristaDerecha;
-	private JTextField inputExtremoIzquierdo;
+	private JTextField inputExtremoArista;
 	private DefaultTableModel model_verVertices;
 
-	private Vertice _vertices ;
+	private Vertice _vertices;
 	private ArrayList<Arista> _arista;
 	private JTable tableVerVertices;
+	private JTextField inputVerticeEnArista;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -87,49 +88,45 @@ public class FramePrincipal {
 		btnAgregarVertice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// AGREGAMOS VERTICES
+				SolverArista solver = new SolverArista(_vertices);
+				solver.agregarVertices(_vertices);
 				_vertices.agregarVertice(Integer.parseInt(inputArista.getText()));
+				/* solver.agregarVertices(_vertices); */
 				inputArista.setText("");
 			}
 		});
 
-		btnAgregarVertice.setBounds(171, 80, 113, 26);
+		btnAgregarVertice.setBounds(171, 79, 113, 27);
 		panelAgregarVertices.add(btnAgregarVertice);
 
 		// --------
 
-		JLabel lblNewLabel_1 = new JLabel("Vertice");
+		JLabel lblNewLabel_1 = new JLabel("Crear Aristra");
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1.setBounds(135, 127, 53, 23);
+		lblNewLabel_1.setBounds(31, 119, 111, 23);
 		panelAgregarVertices.add(lblNewLabel_1);
 
 		inputArista = new JTextField();
-		inputArista.setBounds(21, 79, 126, 29);
+		inputArista.setBounds(35, 78, 126, 29);
 		panelAgregarVertices.add(inputArista);
 		inputArista.setColumns(10);
 
 		// --------
 
-		JLabel lblNewLabel_1_2 = new JLabel("Extremo Derecho");
+		JLabel lblNewLabel_1_2 = new JLabel("Extremo del Vertice");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		lblNewLabel_1_2.setBounds(34, 161, 100, 14);
+		lblNewLabel_1_2.setBounds(36, 223, 125, 14);
 		panelAgregarVertices.add(lblNewLabel_1_2);
 
-		inputAristaDerecha = new JTextField();
-		inputAristaDerecha.setBounds(31, 186, 253, 29);
-		panelAgregarVertices.add(inputAristaDerecha);
-		inputAristaDerecha.setColumns(10);
+		inputExtremoArista = new JTextField();
+		inputExtremoArista.setBounds(34, 248, 79, 29);
+		panelAgregarVertices.add(inputExtremoArista);
+		inputExtremoArista.setColumns(10);
 
-		// --------
-
-		inputExtremoIzquierdo = new JTextField();
-		inputExtremoIzquierdo.setBounds(33, 248, 253, 29);
-		panelAgregarVertices.add(inputExtremoIzquierdo);
-		inputExtremoIzquierdo.setColumns(10);
-
-		JLabel lblNewLabel_1_2_1 = new JLabel("Extremo Izquierdo");
-		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.ITALIC, 13));
-		lblNewLabel_1_2_1.setBounds(31, 223, 120, 14);
-		panelAgregarVertices.add(lblNewLabel_1_2_1);
+		inputVerticeEnArista = new JTextField(); // ***************************** */
+		inputVerticeEnArista.setBounds(34, 183, 79, 29);
+		panelAgregarVertices.add(inputVerticeEnArista);
+		inputVerticeEnArista.setColumns(10);
 
 		// --------
 
@@ -139,7 +136,13 @@ public class FramePrincipal {
 		btnAgregarAlGrafo.setBounds(34, 288, 176, 23);
 		btnAgregarAlGrafo.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				SolverArista solver = new SolverArista(_vertices);
+				// AGREGAMOS ARISTAS
+				solver.agregarVecinos(Integer.parseInt(inputVerticeEnArista.getText()),
+				Integer.parseInt(inputExtremoArista.getText()));
+				solver.imprimirGrafo();
+				inputVerticeEnArista.setText("");
+				inputExtremoArista.setText("");
 			}
 		});
 
@@ -147,8 +150,13 @@ public class FramePrincipal {
 
 		JLabel lblNewLabel_1_3 = new JLabel("Vertice");
 		lblNewLabel_1_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
-		lblNewLabel_1_3.setBounds(67, 50, 53, 23);
+		lblNewLabel_1_3.setBounds(31, 44, 53, 23);
 		panelAgregarVertices.add(lblNewLabel_1_3);
+
+		JLabel lblNewLabel_1_3_1 = new JLabel("Vertice");
+		lblNewLabel_1_3_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		lblNewLabel_1_3_1.setBounds(31, 153, 53, 23);
+		panelAgregarVertices.add(lblNewLabel_1_3_1);
 
 		// ***************** FIN PANEL AGREGAR VERTICES *************
 
@@ -197,8 +205,10 @@ public class FramePrincipal {
 		tableVerVertices.setModel(model_verVertices);
 		tableVerVertices.getColumnModel().getColumn(0).setPreferredWidth(100);
 		tableVerVertices.setRowHeight(20);
-/* 		model_verVertices.addColumn("Derecha");
-		model_verVertices.addColumn("Izquierda"); */
+		/*
+		 * model_verVertices.addColumn("Derecha");
+		 * model_verVertices.addColumn("Izquierda");
+		 */
 
 		scrollVerVertices.setViewportView(tableVerVertices);
 		scrollVerVertices.repaint();
@@ -208,7 +218,7 @@ public class FramePrincipal {
 		btnNewButton_1.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// VEMOS LOS VERTICES
-				_vertices.imprimirGrafo();
+				/* solver.imprimirGrafo(); */
 				for (Integer vertice : _vertices.conjuntoVertices()) {
 					model_verVertices.addRow(new Object[] { "Vertice: " + vertice });
 				}
@@ -222,5 +232,4 @@ public class FramePrincipal {
 		// *************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
 
 	}
-
 }
