@@ -46,7 +46,7 @@ public class Grafo {
 
 	public void imprimirGrafo() {
 		for (Integer clave : _matriz.keySet()) {
-			System.out.print("Vertice " + clave);
+			System.out.print("Vertice " + " - " + clave);
 		}
 
 	}
@@ -131,6 +131,36 @@ public class Grafo {
 		return vertices;
 	}
 
-	
+	public void imprimirGrafoCompleto() {
+		for (Integer vertice : _matriz.keySet()) {
+			System.out.print("Vertice " + vertice + " - ");
+			for (Integer vecino : _matriz.get(vertice)) {
+				System.out.print(vecino + " ");
+			}
+			System.out.println();
+		}
+	}
+
+	public static void main(String[] args) {
+		Vertice vertices = new Vertice();
+		vertices.agregarVertice(1);
+		vertices.agregarVertice(2);
+		vertices.agregarVertice(3);
+		vertices.agregarVertice(4);
+		vertices.agregarVertice(5);
+
+		Grafo grafo = new Grafo(vertices);
+		grafo.agregarVecino(1, 2);
+		grafo.agregarVecino(1, 3);
+		grafo.agregarVecino(1, 4);
+		grafo.agregarVecino(1, 5);
+		grafo.agregarVecino(2, 3);
+		grafo.agregarVecino(2, 4);
+		grafo.agregarVecino(4, 5);
+		grafo.agregarVecino(5, 3);
+
+		grafo.imprimirGrafoCompleto();
+		System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
+	}
 
 }

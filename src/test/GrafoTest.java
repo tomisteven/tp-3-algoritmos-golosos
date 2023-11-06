@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import logica.Grafo;
-import logica.Vertice;
+import Logica.Grafo;
+import Logica.Vertice;
 
 public class GrafoTest {
 	private Vertice v;
