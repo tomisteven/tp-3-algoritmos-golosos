@@ -27,6 +27,7 @@ public class Grafo {
 
 	private void agregar(int vertice, int vecinoNuevo) {
 		_matriz.get(vertice).add(vecinoNuevo);
+		_matriz.get(vecinoNuevo).add(vertice);
 	}
 
 	private void existeVecino(int vertice, int vecinoNuevo) {
@@ -135,34 +136,34 @@ public class Grafo {
 	public void imprimirGrafoCompleto() {
 		for (Integer vertice : _matriz.keySet()) {
 			System.out.print("Vertice " + vertice + " - ");
-			for (Integer vecino : _matriz.get(vertice)) {
+			ArrayList<Integer> vecinos = _matriz.get(vertice);
+			for (Integer vecino : vecinos) {
 				System.out.print(vecino + " ");
 			}
 			System.out.println();
 		}
 	}
 
-	/*
-	 * public static void main(String[] args) {
-	 * Vertice vertices = new Vertice();
-	 * vertices.agregarVertice(1);
-	 * vertices.agregarVertice(2);
-	 * vertices.agregarVertice(3);
-	 * vertices.agregarVertice(4);
-	 * vertices.agregarVertice(5);
-	 *
-	 * Grafo grafo = new Grafo(vertices);
-	 * grafo.agregarVecino(1, 2);
-	 * grafo.agregarVecino(1, 3);
-	 * grafo.agregarVecino(1, 4);
-	 * grafo.agregarVecino(1, 5);
-	 * grafo.agregarVecino(2, 3);
-	 * grafo.agregarVecino(2, 4);
-	 * grafo.agregarVecino(4, 5);
-	 * grafo.agregarVecino(5, 3);
-	 *
-	 * grafo.imprimirGrafoCompleto();
-	 * System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
-	 * }
-	 */
+	public static void main(String[] args) {
+		Vertice vertices = new Vertice();
+		vertices.agregarVertice(1);
+		vertices.agregarVertice(2);
+		vertices.agregarVertice(3);
+		vertices.agregarVertice(4);
+		vertices.agregarVertice(5);
+
+		Grafo grafo = new Grafo(vertices);
+		grafo.agregarVecino(1, 2);
+		grafo.agregarVecino(1, 3);
+		grafo.agregarVecino(1, 4);
+		grafo.agregarVecino(1, 5);
+		grafo.agregarVecino(2, 3);
+		grafo.agregarVecino(2, 4);
+		grafo.agregarVecino(4, 5);
+		grafo.agregarVecino(5, 3);
+
+		grafo.imprimirGrafoCompleto();
+		System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
+	}
+
 }

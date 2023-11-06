@@ -14,8 +14,6 @@ public class SolverArista {
 		g = new Grafo(vertices);
 	}
 
-
-
 	public void agregarVertices(Vertice vertices) {
 		_vertices = vertices;
 	}

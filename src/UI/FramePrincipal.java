@@ -35,6 +35,7 @@ public class FramePrincipal {
 	private JTable tableVerVertices;
 	private JTextField inputVerticeEnArista;
 
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -88,10 +89,11 @@ public class FramePrincipal {
 		btnAgregarVertice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// AGREGAMOS VERTICES
-				SolverArista solver = new SolverArista(_vertices);
-				solver.agregarVertices(_vertices);
+				/* SolverArista solver = new SolverArista(_vertices);
+				solver.agregarVertices(_vertices); */
 				_vertices.agregarVertice(Integer.parseInt(inputArista.getText()));
-				/* solver.agregarVertices(_vertices); */
+				SolverArista solver = new SolverArista(_vertices);
+				 solver.agregarVertices(_vertices);
 				inputArista.setText("");
 			}
 		});
@@ -140,7 +142,6 @@ public class FramePrincipal {
 				// AGREGAMOS ARISTAS
 				solver.agregarVecinos(Integer.parseInt(inputVerticeEnArista.getText()),
 				Integer.parseInt(inputExtremoArista.getText()));
-				solver.imprimirGrafo();
 				inputVerticeEnArista.setText("");
 				inputExtremoArista.setText("");
 			}
@@ -186,6 +187,19 @@ public class FramePrincipal {
 		btnNewButton_1.setBounds(21, 11, 176, 23);
 		panelVerGrafo.add(btnNewButton_1);
 
+		btnNewButton_1.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// VEMOS LOS VERTICES
+				SolverArista solver = new SolverArista(_vertices);
+				solver.agregarVertices(_vertices);
+				solver.imprimirGrafo();
+				for (Integer vertice : _vertices.conjuntoVertices()) {
+					model_verVertices.addRow(new Object[] { "Vertice: " + vertice });
+				}
+				panelAgregarVertices.repaint();
+			}
+		});
+
 		// -------- scroll y tabla de vertices *-----
 		JPanel panelVerVertices = new JPanel();
 		panelVerVertices.setBounds(31, 45, 151, 266);
@@ -215,16 +229,7 @@ public class FramePrincipal {
 
 		// --------
 		scrollVerVertices.setColumnHeaderView(tableVerVertices);
-		btnNewButton_1.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// VEMOS LOS VERTICES
-				/* solver.imprimirGrafo(); */
-				for (Integer vertice : _vertices.conjuntoVertices()) {
-					model_verVertices.addRow(new Object[] { "Vertice: " + vertice });
-				}
-				panelAgregarVertices.repaint();
-			}
-		});
+
 
 		// por cada vertice que haya en el conjunto de vertices, lo agregamos al panel
 		// y le damos un nombre
