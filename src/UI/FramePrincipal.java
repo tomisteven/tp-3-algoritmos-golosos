@@ -13,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+
+import Logica.ConjuntoDeVertice;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;

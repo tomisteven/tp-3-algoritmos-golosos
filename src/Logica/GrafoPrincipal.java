@@ -1,122 +1,134 @@
 package Logica;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 class GrafoPrincipal {
-    private boolean[][] matrizAdyacencia;
-    private int numVertices;
-	private ArrayList<Integer> _vertices;
+	private HashMap<Integer, HashSet<Integer>> _matriz;
 
-    public GrafoPrincipal(ArrayList<SolverArista> aristas) 
-	{
-    	_vertices = new ArrayList<Integer>();
-		matrizAdyacencia = new boolean[aristas.size()][aristas.size()] ;
-		agregarArista(aristas);
-	}
-    public void agregarVertices() {
-    	_vertices.add(null);
-    }
-	private void agregarArista(ArrayList<SolverArista> aristas) {
-		for (int f = 0 ; f < aristas.size(); f++) {
-			agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
-			;
+	public GrafoPrincipal(ConjuntoDeVertice vertices) {
+		_matriz = new HashMap<Integer, HashSet<Integer>>();
 
-			
+		for ( Integer vertice: vertices.conjuntoVertices()) {
+			_matriz.put(vertice, new HashSet<Integer>());
 		}
 	}
-	/* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
-	public void agregarArista(int fila, int col) {
 
-		matrizAdyacencia[fila][col] = true;
+	/* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
+	public void agregarVecino(int vertice, int vecinoNuevo) {
+
+		validarVertice(vertice);
+		existeVecino(vertice,vecinoNuevo);
+		agregar(vertice,vecinoNuevo);
 
 	}
 
-    public void imprimirGrafo() {
-        for (int i = 0; i < numVertices; i++) {
-            for (int j = 0; j < numVertices; j++) {
-                if (matrizAdyacencia[i][j]) {
-                    System.out.println("Vertice " + i + " esta conectado con Vertice " + j);
-                }
-            }
-        }
-    }
+	private void agregar(int vertice, int vecinoNuevo) {
+		_matriz.get(vertice).add(vecinoNuevo);
+	}
 
-    public Set<Integer> conjuntoDominanteHeuristico() {
-        Set<Integer> conjuntoDominante = new HashSet<>();
-        boolean[] cubiertos = new boolean[numVertices];
+	private void existeVecino(int vertice,int vecinoNuevo) {
+		_matriz.get(vertice).contains(vecinoNuevo);
+	}
 
-        while (!todosCubiertos(cubiertos)) {
-            int mejorVertice = encontrarMejorVertice(cubiertos);
-            conjuntoDominante.add(mejorVertice);
-            cubiertos[mejorVertice] = true;
+	private void validarVertice(int vertice) {
+		if(!_matriz.containsKey(vertice)) {
+			throw new RuntimeException("valor de vertice invalido");
+		}
+	}
 
-            for (int i = 0; i < numVertices; i++) {
-                if (matrizAdyacencia[mejorVertice][i]) {
-                    cubiertos[i] = true;
-                }
-            }
-        }
+	public void imprimirGrafo() {
+		for (Integer clave : _matriz.keySet()) {
+			System.out.print("Vertice " + clave );
+			for ( Integer valor: _matriz.get(clave)) {
+				
+					System.out.print(" esta conectado con Vertice " + valor);
+			}
+			System.out.println();
+		}
+		
+		
+	}
 
-        return conjuntoDominante;
-    }
+	public Set<Integer> conjuntoDominanteHeuristico() {
+		Set<Integer> conjuntoDominante = new HashSet<>();
+		boolean[] cubiertos = new boolean[tamanio()];
 
-    private boolean todosCubiertos(boolean[] cubiertos) {
-        for (boolean cubierto : cubiertos) {
-            if (!cubierto) {
-                return false;
-            }
-        }
-        return true;
-    }
+		while (!todosCubiertos(cubiertos)) {
+			int mejorVertice = encontrarMejorVertice(cubiertos);
+			conjuntoDominante.add(mejorVertice);
+			cubiertos[mejorVertice] = true;
 
-    private int encontrarMejorVertice(boolean[] cubiertos) {
-        int mejorVertice = -1;
-        int maxVecinosNoCubiertos = -1;
+			for (int i = 0; i < tamanio(); i++) {
+//				if (matrizAdyacencia[mejorVertice][i]) {
+//					cubiertos[i] = true;
+//				}
+			}
+		}
 
-        for (int i = 0; i < numVertices; i++) {
-            if (!cubiertos[i]) {
-                int vecinosNoCubiertos = contarVecinosNoCubiertos(i, cubiertos);
-                if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
-                    maxVecinosNoCubiertos = vecinosNoCubiertos;
-                    mejorVertice = i;
-                }
-            }
-        }
+	//	return conjuntoDominante;
+	return null;
+	}
 
-        return mejorVertice;
-    }
+	private boolean todosCubiertos(boolean[] cubiertos) {
+		for (boolean cubierto : cubiertos) {
+			if (!cubierto) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-    private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
-        int count = 0;
-        for (int i = 0; i < numVertices; i++) {
-            if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
-                count++;
-            }
-        }
-        return count;
-    }
+	private int encontrarMejorVertice(boolean[] cubiertos) {
+		int mejorVertice = -1;
+		int maxVecinosNoCubiertos = -1;
 
-    // main
+		for (int i = 0; i < tamanio(); i++) {
+			if (!cubiertos[i]) {
+				int vecinosNoCubiertos = contarVecinosNoCubiertos(i, cubiertos);
+				if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
+					maxVecinosNoCubiertos = vecinosNoCubiertos;
+					mejorVertice = i;
+				}
+			}
+		}
 
-    public static void main(String[] args) {
-    	ArrayList<SolverArista> aristas = new ArrayList<SolverArista>();
-    	aristas.add(new SolverArista(1,2));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
-    	aristas.add(new SolverArista(2,3));
+		return mejorVertice;
+	}
 
-        GrafoPrincipal grafo = new GrafoPrincipal(aristas);
+	public int tamanio() {
+		return _matriz.size();
+	}
 
-        grafo.imprimirGrafo();
-        Set<Integer> conjuntoDominante = grafo.conjuntoDominanteHeuristico();
-        System.out.println(grafo.conjuntoDominanteHeuristico());
-        for (int v : conjuntoDominante) {
-            System.out.print(v + " ");
-        }
-    }
+	private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
+		int count = 0;
+		for (int i = 0; i < tamanio(); i++) {
+//			if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
+//				count++;
+//			}
+		}
+		return count;
+	}
+	public boolean existeVertice(int vertice) {
+		return _matriz.containsKey(vertice);
+	}
+
+	// main
+
+	public static void main(String[] args) {
+//		ArrayList<Integer> aristas = new ArrayList<Integer>();
+		ConjuntoDeVertice vertices = new ConjuntoDeVertice(); 
+		vertices.agregarVertice(2);
+		vertices.agregarVertice(9);
+		vertices.agregarVertice(5);
+		GrafoPrincipal grafo = new GrafoPrincipal(vertices);
+
+		grafo.imprimirGrafo();
+//		Set<Integer> conjuntoDominante = grafo.conjuntoDominanteHeuristico();
+//		System.out.println(grafo.conjuntoDominanteHeuristico());
+//		for (int v : conjuntoDominante) {
+//			System.out.print(v + " ");
+//		}
+	}
 
 }
