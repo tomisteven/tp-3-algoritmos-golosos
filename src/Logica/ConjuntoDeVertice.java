@@ -1,9 +1,10 @@
-package UI;
+package Logica;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConjuntoDeVertice {
+
 	private ArrayList<Integer> _vertices;
 
 	public ConjuntoDeVertice() {
@@ -16,12 +17,15 @@ public class ConjuntoDeVertice {
 	}
 
 	private void esVerticeValido(int vertice) {
-		if (_vertices.contains(vertice))
+		if (pertenece(vertice))
 			throw new IllegalArgumentException(" Elemento ya ingresado");
 	}
 
 	public List<Integer> conjuntoVertices() {
 		return verticesClonados();
+	}
+	public boolean pertenece(int elemento) {
+		return _vertices.contains(elemento);
 	}
 
 	private List<Integer> verticesClonados() {
@@ -31,5 +35,8 @@ public class ConjuntoDeVertice {
 		}
 
 		return ret;
+	}
+	public int tamanio() {
+		return _vertices.size();
 	}
 }

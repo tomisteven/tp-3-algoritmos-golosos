@@ -19,13 +19,13 @@ public class Grafo {
 			}
 		}
 	}
-	public Grafo(ArrayList<Arista> aristas)
+	public Grafo(ArrayList<SolverArista> aristas)
 	{
 		A = new int[aristas.size()][aristas.size()] ;
 		agregarArista(aristas);
 	}
 
-	private void agregarArista(ArrayList<Arista> aristas) {
+	private void agregarArista(ArrayList<SolverArista> aristas) {
 		for (int f = 0 ; f < tamano(); f++) {
 			agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
 			;
