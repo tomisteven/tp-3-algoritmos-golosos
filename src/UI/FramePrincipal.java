@@ -11,8 +11,11 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.LineBorder;
+
+import Logica.GrafoPrincipal;
+import Logica.Vertice;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -23,10 +26,10 @@ public class FramePrincipal {
 	private JTextField inputArista;
 	private JTextField inputAristaDerecha;
 	private JTextField inputExtremoIzquierdo;
-private ArrayList<Integer> _vertices;
-	/**
-	 * Launch the application.
-	 */
+
+	private ArrayList<Vertice> vertices = new ArrayList<Vertice>();
+
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -69,12 +72,12 @@ private ArrayList<Integer> _vertices;
 		frame.getContentPane().add(panelAgregarVertices);
 		panelAgregarVertices.setLayout(null);
 
-				JLabel lblAgregarVertices = new JLabel("Agregar Vertices");
+		JLabel lblAgregarVertices = new JLabel("Agregar Vertices");
 		lblAgregarVertices.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 23));
 		lblAgregarVertices.setBounds(161, 54, 207, 33);
 		frame.getContentPane().add(lblAgregarVertices);
 
-		//--------
+		// --------
 
 		JLabel lblNewLabel_1 = new JLabel("Vertice");
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 15));
@@ -86,7 +89,7 @@ private ArrayList<Integer> _vertices;
 		panelAgregarVertices.add(inputArista);
 		inputArista.setColumns(10);
 
-		//--------
+		// --------
 
 		JLabel lblNewLabel_1_2 = new JLabel("Extremo Derecho");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.ITALIC, 13));
@@ -98,21 +101,19 @@ private ArrayList<Integer> _vertices;
 		panelAgregarVertices.add(inputAristaDerecha);
 		inputAristaDerecha.setColumns(10);
 
-		//--------
+		// --------
 
 		inputExtremoIzquierdo = new JTextField();
 		inputExtremoIzquierdo.setBounds(33, 248, 253, 29);
 		panelAgregarVertices.add(inputExtremoIzquierdo);
 		inputExtremoIzquierdo.setColumns(10);
 
-
 		JLabel lblNewLabel_1_2_1 = new JLabel("Extremo Izquierdo");
 		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		lblNewLabel_1_2_1.setBounds(31, 223, 120, 14);
 		panelAgregarVertices.add(lblNewLabel_1_2_1);
 
-		//--------
-
+		// --------
 
 		JButton btnAgregarAlGrafo = new JButton("Relacionar Vertices");
 		btnAgregarAlGrafo.setBackground(new Color(0, 255, 64));
@@ -120,29 +121,24 @@ private ArrayList<Integer> _vertices;
 		btnAgregarAlGrafo.setBounds(34, 288, 176, 23);
 		btnAgregarAlGrafo.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String arista = inputArista.getText();
-				String aristaDerecha = inputAristaDerecha.getText();
-				String aristaIzquierda = inputExtremoIzquierdo.getText();
-				if(arista != null && aristaDerecha != null && aristaIzquierda != null) {
-					System.out.println("Arista: " + arista + " Arista Derecha: " + aristaDerecha + " Arista Izquierda: " + aristaIzquierda);
-				}
+
 			}
 		});
 
 		panelAgregarVertices.add(btnAgregarAlGrafo);
-		
+
 		JButton btnNewButton = new JButton("Agregar Vertice");
 		btnNewButton.setBounds(171, 80, 113, 26);
 		panelAgregarVertices.add(btnNewButton);
-		
+
 		JLabel lblNewLabel_1_3 = new JLabel("Vertice");
 		lblNewLabel_1_3.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		lblNewLabel_1_3.setBounds(67, 50, 53, 23);
 		panelAgregarVertices.add(lblNewLabel_1_3);
 
-		//***************** FIN PANEL AGREGAR VERTICES *************
+		// ***************** FIN PANEL AGREGAR VERTICES *************
 
-		//***************** PANEL CONJUNTO MINIMO DOMINANTE *************
+		// ***************** PANEL CONJUNTO MINIMO DOMINANTE *************
 
 		JPanel panelConjuntoMinimoDominante = new JPanel();
 		panelConjuntoMinimoDominante.setBackground(new Color(255, 234, 159));
@@ -154,28 +150,33 @@ private ArrayList<Integer> _vertices;
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
 		lblNewLabel_1_1.setBounds(729, 57, 243, 33);
 		frame.getContentPane().add(lblNewLabel_1_1);
-		
+
 		JPanel panelVerGrafo = new JPanel();
 		panelVerGrafo.setBackground(new Color(255, 128, 128));
 		panelVerGrafo.setBounds(468, 87, 207, 322);
 		frame.getContentPane().add(panelVerGrafo);
 		panelVerGrafo.setLayout(null);
-		
-		JButton btnNewButton_1 = new JButton("Ver vertices");
-		btnNewButton_1.setBackground(new Color(0, 128, 255));
-		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		btnNewButton_1.setBounds(21, 11, 176, 23);
-		panelVerGrafo.add(btnNewButton_1);
-		
+
+		/* ------ PANEL VER VERTICES --------- */
+
+		JButton btnVerVertices = new JButton("Ver vertices");
+		btnVerVertices.setBackground(new Color(0, 128, 255));
+		btnVerVertices.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		btnVerVertices.setBounds(21, 11, 176, 23);
+		panelVerGrafo.add(btnVerVertices);
+		btnVerVertices.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vertices.add(new Vertice(1, 2, 3));
+			}
+		});
+
+
 		JPanel panel = new JPanel();
 		panel.setBounds(21, 54, 176, 257);
 		panelVerGrafo.add(panel);
 		panel.setLayout(null);
 
-		//*************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
-
-
-
+		// *************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
 
 	}
 }

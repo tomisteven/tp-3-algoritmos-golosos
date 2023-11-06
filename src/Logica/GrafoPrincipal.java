@@ -4,30 +4,39 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-class GrafoPrincipal {
+public class GrafoPrincipal {
     private boolean[][] matrizAdyacencia;
     private int numVertices;
+    private ArrayList<Integer> _vertices;
 
-    public GrafoPrincipal(ArrayList<Arista> aristas) 
-	{
-		matrizAdyacencia = new boolean[aristas.size()][aristas.size()] ;
-		agregarArista(aristas);
-	}
+    public GrafoPrincipal(ArrayList<Arista> aristas) {
+        matrizAdyacencia = new boolean[aristas.size()][aristas.size()];
+        agregarArista(aristas);
+    }
 
-	private void agregarArista(ArrayList<Arista> aristas) {
-		for (int f = 0 ; f < aristas.size(); f++) {
-			agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
-			;
+    private void agregarArista(ArrayList<Arista> aristas) {
+        for (int f = 0; f < aristas.size(); f++) {
+            agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());
+            ;
+            ;
 
-			
-		}
-	}
-	/* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
-	public void agregarArista(int fila, int col) {
+        }
+    }
 
-		matrizAdyacencia[fila][col] = true;
+    public void agregarVertice(int vertice) {
+        if (_vertices.contains(_vertices.get(vertice))) {
+            System.out.println("El vertice ya existe");
+        } else {
+            _vertices.add(vertice);
+        }
+    }
 
-	}
+    /* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
+    public void agregarArista(int fila, int col) {
+
+        matrizAdyacencia[fila][col] = true;
+
+    }
 
     public void imprimirGrafo() {
         for (int i = 0; i < numVertices; i++) {
@@ -97,14 +106,9 @@ class GrafoPrincipal {
     // main
 
     public static void main(String[] args) {
-    	ArrayList<Arista> aristas = new ArrayList<Arista>();
-    	aristas.add(new Arista(1,2));
-    	aristas.add(new Arista(2,3));
-    	aristas.add(new Arista(2,3));
-    	aristas.add(new Arista(2,3));
-    	aristas.add(new Arista(2,3));
-    	aristas.add(new Arista(2,3));
-
+        ArrayList<Arista> aristas = new ArrayList<Arista>();
+        aristas.add(new Arista(0, 1));
+        aristas.add(new Arista(0, 2));
         GrafoPrincipal grafo = new GrafoPrincipal(aristas);
 
         grafo.imprimirGrafo();
