@@ -4,34 +4,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 class GrafoPrincipal {
+
     private boolean[][] matrizAdyacencia;
     private int numVertices;
+    private Vertice[] listaVertices;  // Cambiado a variable de instancia
 
     public GrafoPrincipal(int numVertices) {
         this.numVertices = numVertices;
         matrizAdyacencia = new boolean[numVertices][numVertices];
+        listaVertices = new Vertice[numVertices];
     }
 
-    public void agregarVertice(int vertice, int aristaDerecha, int aristaIzquierda) {
-        if (vertice >= 0 && vertice <= numVertices) {
+    public void agregarVertice(Vertice vertice) {
+        if (vertice.getIndice() > 0 && vertice.getIndice() < numVertices) {
             boolean[][] nuevaMatriz = new boolean[numVertices + 1][numVertices + 1];
             for (int i = 0; i < numVertices; i++) {
                 System.arraycopy(matrizAdyacencia[i], 0, nuevaMatriz[i], 0, numVertices);
             }
             matrizAdyacencia = nuevaMatriz;
             numVertices++;
+            listaVertices[numVertices - 1] = vertice;  // Corregido
 
             // Agregar las aristas derecha e izquierda
-            if (aristaDerecha >= 0 && aristaDerecha <= numVertices && aristaIzquierda >= 0 && aristaIzquierda <= numVertices) {
-                matrizAdyacencia[numVertices - 1][aristaDerecha - 1] = true;
-                matrizAdyacencia[numVertices - 1][aristaIzquierda - 1] = true;
-                matrizAdyacencia[aristaDerecha - 1][numVertices - 1] = true;
-                matrizAdyacencia[aristaIzquierda - 1][numVertices - 1] = true;
+            if (vertice.getAristaDerecha() >= 0 && vertice.getAristaDerecha() <= numVertices &&
+                    vertice.getAristaIzquierda() >= 0 && vertice.getAristaIzquierda() <= numVertices) {
+
+                matrizAdyacencia[numVertices - 1][vertice.getAristaDerecha()] = true;
+                matrizAdyacencia[numVertices - 1][vertice.getAristaIzquierda()] = true;
+
+                matrizAdyacencia[vertice.getAristaDerecha()][numVertices - 1] = true;
+                matrizAdyacencia[vertice.getAristaIzquierda()][numVertices - 1] = true;
             } else {
-                System.out.println("Índices de vértices inválidos.");
+                System.out.println("indice invalido");
             }
         } else {
-            System.out.println("Índice de vértice inválido.");
+            System.out.println("indice invalido, fuera");
         }
     }
 
@@ -39,7 +46,7 @@ class GrafoPrincipal {
         if (origen >= 0 && origen < numVertices && destino >= 0 && destino < numVertices) {
             matrizAdyacencia[origen][destino] = true;
         } else {
-            System.out.println("indices de vertices invalidos.");
+            System.out.println("Índices de vértices inválidos.");
         }
     }
 
@@ -47,7 +54,7 @@ class GrafoPrincipal {
         for (int i = 0; i < numVertices; i++) {
             for (int j = 0; j < numVertices; j++) {
                 if (matrizAdyacencia[i][j]) {
-                    System.out.println("Vertice " + i + " esta conectado con Vertice " + j);
+                    System.out.println("Vértice " + i + " está conectado con Vértice " + j);
                 }
             }
         }
@@ -108,22 +115,20 @@ class GrafoPrincipal {
         return count;
     }
 
-    // main
-
     public static void main(String[] args) {
-        GrafoPrincipal grafo = new GrafoPrincipal(6);
 
-        grafo.agregarVertice(1, 2, 3);
-        grafo.agregarVertice(2, 3, 4);
-        grafo.agregarVertice(3, 4, 5);
-        grafo.agregarVertice(4, 5, 6);
+        GrafoPrincipal grafo = new GrafoPrincipal(0);
+
+        grafo.agregarVertice(new Vertice(0, 1, 2));
+        grafo.agregarVertice(new Vertice(1, 2, 3));
+        grafo.agregarVertice(new Vertice(2, 3, 4));
+        grafo.agregarVertice(new Vertice(3, 4, 5));
+        grafo.agregarVertice(new Vertice(4, 5, 6));
+        grafo.agregarVertice(new Vertice(5, 6, 1));
 
         grafo.imprimirGrafo();
-        Set<Integer> conjuntoDominante = grafo.conjuntoDominanteHeuristico();
-        System.out.println(grafo.conjuntoDominanteHeuristico());
-        for (int v : conjuntoDominante) {
-            System.out.print(v + " ");
-        }
+
+
     }
 
 }
