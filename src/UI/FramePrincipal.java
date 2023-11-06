@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
@@ -22,7 +23,7 @@ public class FramePrincipal {
 	private JTextField inputArista;
 	private JTextField inputAristaDerecha;
 	private JTextField inputExtremoIzquierdo;
-
+private ArrayList<Integer> _vertices;
 	/**
 	 * Launch the application.
 	 */

@@ -98,11 +98,12 @@ class GrafoPrincipal {
 
     public static void main(String[] args) {
     	ArrayList<Arista> aristas = new ArrayList<Arista>();
-//    	aristas.add(new Arista(1,2,3));
-//    	aristas.add(new Arista(1,2,3));
-//    	aristas.add(new Arista(1,2,3));
-//    	aristas.add(new Arista(1,2,3));
-//    	aristas.add(new Arista(1,2,3));
+    	aristas.add(new Arista(1,2));
+    	aristas.add(new Arista(2,3));
+    	aristas.add(new Arista(2,3));
+    	aristas.add(new Arista(2,3));
+    	aristas.add(new Arista(2,3));
+    	aristas.add(new Arista(2,3));
 
         GrafoPrincipal grafo = new GrafoPrincipal(aristas);
 
