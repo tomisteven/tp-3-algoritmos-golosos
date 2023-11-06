@@ -14,7 +14,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 
 import Logica.GrafoPrincipal;
-import Logica.Vertice;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -27,7 +26,10 @@ public class FramePrincipal {
 	private JTextField inputAristaDerecha;
 	private JTextField inputExtremoIzquierdo;
 
-	private ArrayList<Vertice> vertices = new ArrayList<Vertice>();
+
+
+
+	/* GrafoPrincipal grafoPrincipal = new GrafoPrincipal(null); */
 
 
 	public static void main(String[] args) {
@@ -157,19 +159,13 @@ public class FramePrincipal {
 		frame.getContentPane().add(panelVerGrafo);
 		panelVerGrafo.setLayout(null);
 
-		/* ------ PANEL VER VERTICES --------- */
+		/* ------ PANEL VER VERTI */
 
-		JButton btnVerVertices = new JButton("Ver vertices");
-		btnVerVertices.setBackground(new Color(0, 128, 255));
-		btnVerVertices.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
-		btnVerVertices.setBounds(21, 11, 176, 23);
-		panelVerGrafo.add(btnVerVertices);
-		btnVerVertices.addActionListener((ActionListener) new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				vertices.add(new Vertice(1, 2, 3));
-			}
-		});
-
+		JButton btnNewButton_1 = new JButton("Ver vertices");
+		btnNewButton_1.setBackground(new Color(0, 128, 255));
+		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
+		btnNewButton_1.setBounds(21, 11, 176, 23);
+		panelVerGrafo.add(btnNewButton_1);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(21, 54, 176, 257);

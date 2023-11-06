@@ -1,11 +1,11 @@
 package Logica;
 
-public class Arista {
+public class SolverArista {
 
     private int _extremoDer;
     private int _extremoIzq;
 
-    public Arista(int extremoIzq, int extremoDer) {
+    public SolverArista(int extremoIzq, int extremoDer) {
         _extremoIzq = extremoIzq;
         _extremoDer = extremoDer;
     }
