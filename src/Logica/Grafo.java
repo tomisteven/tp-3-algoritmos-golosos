@@ -1,117 +1,136 @@
 package Logica;
-/*
-import java.awt.Point*; */
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Grafo {
 
-	private int[][] A;
+	private HashMap<Integer, ArrayList<Integer>> _matriz;
 
-	// La cantidad de vertices esta predeterminada desde el constructor
-	public Grafo(int vertices) {
-		A = new int[vertices][vertices];
-		for (int i = 0; i < A.length; i++) {
-			for (int j = 0; j < A.length; j++) {
-				A[i][j] = -1;
-			}
+	public Grafo(Vertice vertices) {
+		_matriz = new HashMap<Integer, ArrayList<Integer>>();
+
+		for (Integer vertice : vertices.conjuntoVertices()) {
+			_matriz.put(vertice, new ArrayList<Integer>());
 		}
-	}
-	public Grafo(ArrayList<SolverArista> aristas)
-	{
-		A = new int[aristas.size()][aristas.size()] ;
-		agregarArista(aristas);
-	}
-
-	private void agregarArista(ArrayList<SolverArista> aristas) {
-		for (int f = 0 ; f < tamano(); f++) {
-<<<<<<< HEAD
-			//agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());;
-=======
-			/* agregarArista(aristas.get(f).getExtremoIzq(), aristas.get(f).getExtremoDer());; */
->>>>>>> 37d08358d73eb1a9b0f2e89365c789ba179fee50
-			;
-
-
-		}
-	}
-	// Agregado de aristas
-	public void agregarArista(int fila, int col, int peso) {
-		verificarVertice(fila);
-		verificarVertice(col);
-		verificarDistintos(fila, col);
-
-		A[fila][col] = peso;
-		A[col][fila] = peso;
 	}
 
 	/* en esta sobre carga el agregarArista comun no se usa es solo para jugar */
-	public void agregarArista(int fila, int col) {
-		verificarVertice(fila);
-		verificarVertice(col);
-		verificarDistintos(fila, col);
+	public void agregarVecino(int vertice, int vecinoNuevo) {
 
-		A[fila][col] = 1;
-		A[col][fila] = 1;
+		validarVertice(vertice);
+		existeVecino(vertice, vecinoNuevo);
+		agregar(vertice, vecinoNuevo);
+	}
+
+	private void agregar(int vertice, int vecinoNuevo) {
+		_matriz.get(vertice).add(vecinoNuevo);
+	}
+
+	private void existeVecino(int vertice, int vecinoNuevo) {
+		if (vecinos(vertice).contains(vecinoNuevo) ) {
+			throw new RuntimeException("valor de vertice invalido");
+		}
+	}
+
+	void validarVertice(int vertice) {
+		if (!vertices().contains(vertice) ) {
+			throw new RuntimeException("valor de vertice invalido");
+		}
+		if (vecinos(vertice).contains(vertice) ) {
+			throw new RuntimeException("No puede existir loops");
+		}
+	}
+
+	public void imprimirGrafo() {
+		for (Integer clave : _matriz.keySet()) {
+			System.out.print("Vertice " + clave);
+		}
 
 	}
 
-	/*
-	 * Eliminacion de aristas es inecesario por la implementacion aristas negativas
-	 * no tienen relacion
-	 */
-	public void eliminarArista(int fila, int col) {
-		verificarVertice(fila);
-		verificarVertice(col);
-		verificarDistintos(fila, col);
+	public Set<Integer> conjuntoDominanteHeuristico() {
+		Set<Integer> conjuntoDominante = new HashSet<>();
+		boolean[] cubiertos = new boolean[tamanio()];
 
-		A[fila][col] = -1;
-		A[col][fila] = -1;
-	}
+		while (!todosCubiertos(cubiertos)) {
+			int mejorVertice = encontrarMejorVertice(cubiertos);
+			conjuntoDominante.add(mejorVertice);
+			cubiertos[mejorVertice] = true;
 
-	// Informa si existe la arista especificada
-	public boolean existeArista(int i, int j) {
-		verificarVertice(i);
-		verificarVertice(j);
-		verificarDistintos(i, j);
-		return A[i][j] >= 0;
-	}
-
-	// Cantidad de vertices
-	public int tamano() {
-		return A.length;
-	}
-
-	// Vecinos de un vertice
-	public Set<Integer> vecinos(int i) {
-		verificarVertice(i);
-
-		Set<Integer> ret = new HashSet<Integer>();
-		for (int j = 0; j < this.tamano(); ++j)
-			if (i != j) {
-				if (this.existeArista(i, j))
-					ret.add(j);
+			for (int i = 0; i < tamanio(); i++) {
+//				if (matrizAdyacencia[mejorVertice][i]) {
+//					cubiertos[i] = true;
+//				}
 			}
+		}
 
-		return ret;
+		// return conjuntoDominante;
+		return null;
 	}
 
-	// Verifica que sea un vertice valido
-	private void verificarVertice(int i) {
-		if (i < 0)
-			throw new IllegalArgumentException("El vertice no puede ser negativo: " + i);
-
-		if (i >= A.length)
-			throw new IllegalArgumentException("Los vertices deben estar entre 0 y " + (i - 1));
+	private boolean todosCubiertos(boolean[] cubiertos) {
+		for (boolean cubierto : cubiertos) {
+			if (!cubierto) {
+				return false;
+			}
+		}
+		return true;
 	}
 
-	// Verifica que i y j sean distintos
-	private void verificarDistintos(int i, int j) {
-		if (i == j)
-			throw new IllegalArgumentException("No se permiten loops: (" + i + ", " + j + ")");
+	private int encontrarMejorVertice(boolean[] cubiertos) {
+		int mejorVertice = -1;
+		int maxVecinosNoCubiertos = -1;
+
+		for (int i = 0; i < tamanio(); i++) {
+			if (!cubiertos[i]) {
+				int vecinosNoCubiertos = contarVecinosNoCubiertos(i, cubiertos);
+				if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
+					maxVecinosNoCubiertos = vecinosNoCubiertos;
+					mejorVertice = i;
+				}
+			}
+		}
+
+		return mejorVertice;
 	}
 
-    //main
+	public int tamanio() {
+		return _matriz.size();
+	}
+
+	private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
+		int count = 0;
+		for (int i = 0; i < tamanio(); i++) {
+//			if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
+//				count++;
+//			}
+		}
+		return count;
+	}
+
+	public boolean existeVertice(int vertice) {
+		return _matriz.containsKey(vertice);
+	}
+
+	public ArrayList<Integer> vecinos(int vertice) {
+		// TODO Auto-generated method stub
+		return _matriz.get(vertice);
+	}
+	public int cantidadVecinos(int vertice) {
+		return vecinos(vertice).size();
+	}
+
+	public ArrayList<Integer> vertices() {
+		ArrayList<Integer> vertices = new ArrayList<Integer>();
+		for (Integer vertice: _matriz.keySet()) {
+			vertices.add(vertice);
+		}
+		return vertices;
+	}
+
+	
+
 }

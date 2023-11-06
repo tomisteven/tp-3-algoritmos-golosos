@@ -1,33 +1,26 @@
 package UI;
 
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
-import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.LineBorder;
-<<<<<<< HEAD
-=======
-import javax.swing.table.DefaultTableModel;
-
-import org.eclipse.swt.events.KeyAdapter;
->>>>>>> 37d08358d73eb1a9b0f2e89365c789ba179fee50
-
-import Logica.ConjuntoDeVertice;
-
-import java.awt.Color;
 import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import java.awt.CardLayout;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import Logica.Arista;
+import Logica.Vertice;
 
 public class FramePrincipal {
 
@@ -37,7 +30,8 @@ public class FramePrincipal {
 	private JTextField inputExtremoIzquierdo;
 	private DefaultTableModel model_verVertices;
 
-	private ConjuntoDeVertice _vertices = new ConjuntoDeVertice();
+	private Vertice _vertices ;
+	private ArrayList<Arista> _arista;
 	private JTable tableVerVertices;
 
 	public static void main(String[] args) {
@@ -57,6 +51,8 @@ public class FramePrincipal {
 	 * Create the application.
 	 */
 	public FramePrincipal() {
+		_vertices = new Vertice();
+		_arista = new ArrayList<Arista>();
 		initialize();
 	}
 
@@ -226,4 +222,5 @@ public class FramePrincipal {
 		// *************** FIN PANEL CONJUNTO MINIMO DOMINANTE *************
 
 	}
+
 }

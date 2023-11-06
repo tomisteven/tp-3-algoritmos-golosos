@@ -3,11 +3,12 @@ package Logica;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConjuntoDeVertice {
+public class Vertice {
+
 
 	private ArrayList<Integer> _vertices;
 
-	public ConjuntoDeVertice() {
+	public Vertice() {
 		_vertices = new ArrayList<Integer>();
 	}
 
@@ -47,4 +48,5 @@ public class ConjuntoDeVertice {
 	public int tamanio() {
 		return _vertices.size();
 	}
+
 }

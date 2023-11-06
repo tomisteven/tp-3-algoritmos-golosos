@@ -1,31 +1,34 @@
 package Logica;
 
 import java.awt.AWTException;
+import java.util.ArrayList;
 
 public class SolverArista {
 
-    private ConjuntoDeVertice _vertices;
-    private Grafo g ;
+	private Vertice _vertices;
+	private Grafo g;
+	private ArrayList<Arista> _aristas;
 
-    public SolverArista(ConjuntoDeVertice vertices) {
-        _vertices = vertices;
-        g = new Grafo(_vertices.tamanio());
-    }
-    public void agregarVertices(ConjuntoDeVertice vertices) {
-    	_vertices = vertices;
-    }
-    private boolean existenVertices(int vertice1, int vertice2 ) {
-    	return _vertices.pertenece(vertice1) && _vertices.pertenece(vertice2)
-    			;
-    }
-    public void agregarAristaEntre(int vertice1, int vertice2) {
-    	validarVertice(vertice1,vertice2); 
-    	g.agregarArista(vertice1, vertice2);
-    }
-	private void validarVertice(int vertice1, int vertice2) {
-		if(!existenVertices(vertice1, vertice2)) {
-			throw new IllegalArgumentException(" Vertices no encontrados");
-		}
+	public SolverArista(Vertice vertices) {
+		_vertices = vertices;
+		g = new Grafo(vertices);
 	}
-	
+
+	public void agregarVertices(Vertice vertices) {
+		_vertices = vertices;
+	}
+
+	public void ingresarAristas(ArrayList<Arista> aristas) {
+		_aristas = aristas;
+	}
+
+	public void agregarAristaEntre(int vertice1, int vertice2) {
+		g.agregarVecino(vertice1, vertice2);
+		;
+	}
+
+	public Vertice getVertices() {
+		return _vertices;
+	}
+
 }
