@@ -4,6 +4,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +42,37 @@ public class GrafoTest {
 	}
 
 	@Test
+	public void conjuntoDeVecinosTest() {
+		relacionarVecinos();
+		assertTrue(seRelacionan(g.conjuntoVertice(), vecinosPosiblesAlVertice1));
+		assertTrue(seRelacionan(g.conjuntoVertice(), vecinosPosiblesAlVertice2));
+		assertTrue(seRelacionan(g.conjuntoVertice(), vecinosPosiblesAlVertice3));
+		assertTrue(seRelacionan(g.conjuntoVertice(), vecinosPosiblesAlVertice4));
+		assertTrue(seRelacionan(g.conjuntoVertice(), vecinosPosiblesAlVertice5));
+
+	}
+
+	private boolean seRelacionan(Collection<ArrayList<Integer>> conjuntoVertice, int[] vecinosPosiblesAlVertice) {
+		boolean ret = false;
+		for (ArrayList<Integer> vecinos : conjuntoVertice) {
+			for (int elem : vecinosPosiblesAlVertice) {
+				ret= ret || vecinos.contains(elem);
+			}
+		}
+
+		return ret;
+	}
+
+	@Test
 	public void existeVerticeEnGrafoTest() {
-		Vertice v = crearVertices();
-		Grafo g = crearGrafo(v);
 		assertTrue(g.existeVertice(1));
+	}
+	@Test
+	public void ordenDeRecorridoTest() {
+		relacionarVecinos();
+		//assertTrue(g.solucion().size()== verticeDelGrafo.length);
+
+//		assertTrue(seRelacionan(g.solucion(), verticeDelGrafo));
 	}
 
 	@Test
@@ -98,21 +127,31 @@ public class GrafoTest {
 		assertFalse(seRelacionan(g.vecinos(5), 5));
 
 	}
+
 	@Test
 	public void verticesDelGrafoTest() {
 		relacionarVecinos();
-		assertTrue(seRelacionan(g.vertices(),verticeDelGrafo));
+		assertTrue(seRelacionan(g.vertices(), verticeDelGrafo));
 
 	}
-//	@Ignore (expected = RuntimeException.class)
-//	public void verificarLoopsVerticeTest() {
-//		relacionarVecinos();
-//		g.agregarVecino(5, 1);
-//	}
-	@Test (expected = RuntimeException.class)
+
+	@Test(expected = RuntimeException.class)
+	public void verificarLoopsVerticeTest() {
+		relacionarVecinos();
+		g.agregarVecino(1, 1);
+	}
+
+	@Test(expected = RuntimeException.class)
 	public void verificarVecinoExistenteDelVerticeTest() {
 		relacionarVecinos();
 		g.agregarVecino(1, 2);
+	}
+	private boolean seRelacionan(Set<Integer> solucion, int[] vertices) {
+		boolean ret = true;
+		for (int vecino : vertices) {
+			ret &= solucion.contains(vecino);
+		}
+		return ret;
 	}
 
 	private boolean seRelacionan(ArrayList<Integer> vecinos, int vertice) {
@@ -144,13 +183,9 @@ public class GrafoTest {
 
 	private void relacionarVecinos() {
 		g.agregarVecino(1, 2);
-		g.agregarVecino(2, 1);
 		g.agregarVecino(2, 3);
 		g.agregarVecino(2, 4);
-		g.agregarVecino(3, 2);
 		g.agregarVecino(4, 5);
-		g.agregarVecino(4, 2);
-		g.agregarVecino(5, 4);
 	}
 
 }

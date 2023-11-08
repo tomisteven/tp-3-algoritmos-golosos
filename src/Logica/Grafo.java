@@ -1,8 +1,10 @@
 package Logica;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Grafo {
@@ -21,13 +23,21 @@ public class Grafo {
 	public void agregarVecino(int vertice, int vecinoNuevo) {
 
 		validarVertice(vertice);
+		validarVertice(vecinoNuevo);
+		validarLoop(vertice, vecinoNuevo);
 		existeVecino(vertice, vecinoNuevo);
 		agregar(vertice, vecinoNuevo);
+		agregar(vecinoNuevo, vertice);
+	}
+
+	private void validarLoop(int vertice, int vecinoNuevo) {
+		if (vertice == vecinoNuevo) {
+			throw new RuntimeException("No puede existir loops");
+		}
 	}
 
 	private void agregar(int vertice, int vecinoNuevo) {
 		_matriz.get(vertice).add(vecinoNuevo);
-		_matriz.get(vecinoNuevo).add(vertice);
 	}
 
 	private void existeVecino(int vertice, int vecinoNuevo) {
@@ -40,9 +50,7 @@ public class Grafo {
 		if (!vertices().contains(vertice)) {
 			throw new RuntimeException("valor de vertice invalido");
 		}
-		if (vecinos(vertice).contains(vertice)) {
-			throw new RuntimeException("No puede existir loops");
-		}
+
 	}
 
 	public void imprimirGrafo() {
@@ -52,64 +60,52 @@ public class Grafo {
 
 	}
 
-	public Set<Integer> conjuntoDominanteHeuristico() {
-		Set<Integer> conjuntoDominante = new HashSet<>();
-		boolean[] cubiertos = new boolean[tamanio()];
-
-		while (!todosCubiertos(cubiertos)) {
-			int mejorVertice = encontrarMejorVertice(cubiertos);
-			conjuntoDominante.add(mejorVertice);
-			cubiertos[mejorVertice] = true;
-
-			for (int i = 0; i < tamanio(); i++) {
-				// if (matrizAdyacencia[mejorVertice][i]) {
-				// cubiertos[i] = true;
-				// }
-			}
-		}
-
-		// return conjuntoDominante;
-		return null;
+	public Collection<ArrayList<Integer>> conjuntoVertice() {
+		return _matriz.values();
 	}
 
-	private boolean todosCubiertos(boolean[] cubiertos) {
-		for (boolean cubierto : cubiertos) {
-			if (!cubierto) {
-				return false;
+	public Set<Integer> solucion() {
+		Set<Integer> ret = new HashSet<Integer>();
+		ArrayList<Integer> orden = ordenDeRecorrido();
+		Set<Integer> conjuntoDeVertice = new HashSet<Integer>();
+
+		while (conjuntoDeVertice.size() != orden.size())
+			for (int v : orden) {
+				unir(conjuntoDeVertice, vecinos(v));
+				ret.add(v);
 			}
-		}
-		return true;
+		return ret;
 	}
 
-	private int encontrarMejorVertice(boolean[] cubiertos) {
-		int mejorVertice = -1;
-		int maxVecinosNoCubiertos = -1;
-
-		for (int i = 0; i < tamanio(); i++) {
-			if (!cubiertos[i]) {
-				int vecinosNoCubiertos = contarVecinosNoCubiertos(i, cubiertos);
-				if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
-					maxVecinosNoCubiertos = vecinosNoCubiertos;
-					mejorVertice = i;
-				}
-			}
+	private void unir(Set<Integer> conjuntoDeVertice, ArrayList<Integer> vecinos) {
+		for(int v :vecinos) {
+			conjuntoDeVertice.add(v);
 		}
 
-		return mejorVertice;
+	}
+
+	 ArrayList<Integer> ordenDeRecorrido() {
+		ArrayList<Integer> orden = new ArrayList<Integer>();
+		ArrayList<Integer> verticesPorRecorrer = vertices();
+
+		while (0 != verticesPorRecorrer.size()) {
+			int mayor = verticeConMasVecinos(verticesPorRecorrer);
+			orden.add(mayor);
+//			verticesPorRecorrer.remove(mayor);
+		}
+		return orden;
+	}
+
+	private Integer verticeConMasVecinos(ArrayList<Integer> verticesPorRecorrer) {
+		int cantVecinos = vecinos(verticesPorRecorrer.get(0)).size();
+		for (Integer v : verticesPorRecorrer)
+			if (cantVecinos < vecinos(v).size())
+				cantVecinos = vecinos(v).size();
+		return cantVecinos;
 	}
 
 	public int tamanio() {
 		return _matriz.size();
-	}
-
-	private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
-		int count = 0;
-		for (int i = 0; i < tamanio(); i++) {
-			// if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
-			// count++;
-			// }
-		}
-		return count;
 	}
 
 	public boolean existeVertice(int vertice) {
@@ -161,9 +157,12 @@ public class Grafo {
 		grafo.agregarVecino(2, 4);
 		grafo.agregarVecino(4, 5);
 		grafo.agregarVecino(5, 3);
+		
 
 		grafo.imprimirGrafoCompleto();
 		System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
+		System.out.println("conjunto dominante : " + grafo.solucion().toString());
+
 	}
 
 }
