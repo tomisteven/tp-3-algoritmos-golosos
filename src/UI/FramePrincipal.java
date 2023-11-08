@@ -20,8 +20,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import Logica.Arista;
+import Logica.GolosoDominante;
+import Logica.Grafo;
 import Logica.SolverArista;
 import Logica.Vertice;
+import javax.swing.SwingConstants;
 
 public class FramePrincipal {
 
@@ -31,9 +34,9 @@ public class FramePrincipal {
 	private DefaultTableModel model_verVertices;
 
 	private Vertice _vertices;
-	private ArrayList<Arista> _arista;
 	private JTable tableVerVertices;
 	private JTextField inputVerticeEnArista;
+	private Grafo g;
 
 
 	public static void main(String[] args) {
@@ -54,7 +57,6 @@ public class FramePrincipal {
 	 */
 	public FramePrincipal() {
 		_vertices = new Vertice();
-		_arista = new ArrayList<Arista>();
 		initialize();
 	}
 
@@ -88,13 +90,10 @@ public class FramePrincipal {
 		JButton btnAgregarVertice = new JButton("Agregar Vertice");
 		btnAgregarVertice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// AGREGAMOS VERTICES
-				/* SolverArista solver = new SolverArista(_vertices);
-				solver.agregarVertices(_vertices); */
 				_vertices.agregarVertice(Integer.parseInt(inputArista.getText()));
-				SolverArista solver = new SolverArista(_vertices);
-				 solver.agregarVertices(_vertices);
 				inputArista.setText("");
+				_vertices.imprimirGrafo();
+				g = new Grafo(_vertices);
 			}
 		});
 
@@ -138,9 +137,9 @@ public class FramePrincipal {
 		btnAgregarAlGrafo.setBounds(34, 288, 176, 23);
 		btnAgregarAlGrafo.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SolverArista solver = new SolverArista(_vertices);
+				/* SolverArista solver = new SolverArista(_vertices); */
 				// AGREGAMOS ARISTAS
-				solver.agregarVecinos(Integer.parseInt(inputVerticeEnArista.getText()),
+				g.agregarVecino(Integer.parseInt(inputVerticeEnArista.getText()),
 				Integer.parseInt(inputExtremoArista.getText()));
 				inputVerticeEnArista.setText("");
 				inputExtremoArista.setText("");
@@ -168,6 +167,29 @@ public class FramePrincipal {
 		panelConjuntoMinimoDominante.setBorder(new LineBorder(new Color(255, 128, 64)));
 		panelConjuntoMinimoDominante.setBounds(716, 87, 263, 322);
 		frame.getContentPane().add(panelConjuntoMinimoDominante);
+		panelConjuntoMinimoDominante.setLayout(null);
+
+		JButton btnNewButton = new JButton("Conjunto Minimo Dominante");
+		btnNewButton.setBounds(10, 11, 243, 23);
+		panelConjuntoMinimoDominante.add(btnNewButton);
+		btnNewButton.setBackground(new Color(0, 255, 64));
+		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+
+		JLabel textSolucion = new JLabel("SOLUCION");
+		textSolucion.setHorizontalAlignment(SwingConstants.CENTER);
+		textSolucion.setOpaque(true);
+		textSolucion.setBounds(10, 68, 243, 30);
+		panelConjuntoMinimoDominante.add(textSolucion);
+		btnNewButton.addActionListener((ActionListener) new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GolosoDominante goloso = new GolosoDominante(g.getMatriz());
+				goloso.conjuntoDominanteHeuristico();
+				textSolucion.setText(goloso.conjuntoDominanteHeuristico().toString());
+				g.imprimirGrafoCompleto();
+				panelAgregarVertices.repaint();
+			}
+		});
+
 
 		JLabel lblNewLabel_1_1 = new JLabel("Conjunto Dominante Minimo");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
@@ -191,10 +213,16 @@ public class FramePrincipal {
 			public void actionPerformed(ActionEvent e) {
 				// VEMOS LOS VERTICES
 				SolverArista solver = new SolverArista(_vertices);
-				solver.agregarVertices(_vertices);
 				solver.imprimirGrafo();
-				for (Integer vertice : _vertices.conjuntoVertices()) {
-					model_verVertices.addRow(new Object[] { "Vertice: " + vertice });
+				int tamanioAnterior = _vertices.tamanio();
+				if(_vertices.tamanio() != tamanioAnterior){
+						System.out.println("Se agrego un vertice");
+				}else{
+					model_verVertices.setRowCount(0);
+					System.out.println();
+					for (String vertice : g.obtenerListaDeVerticesYVecinos()) {
+						model_verVertices.addRow(new Object[] {vertice });
+					}
 				}
 				panelAgregarVertices.repaint();
 			}

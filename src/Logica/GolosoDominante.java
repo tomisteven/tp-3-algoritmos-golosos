@@ -1,64 +1,83 @@
 package Logica;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class GolosoDominante {
-	public Set<Integer> conjuntoDominanteHeuristico() {
-		Set<Integer> conjuntoDominante = new HashSet<>();
-		// donde esta el 1, va tamanio del grafo
-		boolean[] cubiertos = new boolean[1];
 
-		while (!todosCubiertos(cubiertos)) {
-			int mejorVertice = encontrarMejorVertice(cubiertos);
-			conjuntoDominante.add(mejorVertice);
-			cubiertos[mejorVertice] = true;
+    private HashMap<Integer, ArrayList<Integer>> _matriz;
 
-			for (int i = 0; i < 1; i++) {
-				// if (matrizAdyacencia[mejorVertice][i]) {
-				// cubiertos[i] = true;
-				// }
-			}
-		}
+    public GolosoDominante(HashMap<Integer, ArrayList<Integer>> matriz) {
+        _matriz = matriz;
+    }
 
-		// return conjuntoDominante;
-		return null;
-	}
+    public Set<Integer> conjuntoDominanteHeuristico() {
+        Set<Integer> conjuntoDominante = new HashSet<>();
+        Set<Integer> verticesCubiertos = new HashSet<>();
 
-	private boolean todosCubiertos(boolean[] cubiertos) {
-		for (boolean cubierto : cubiertos) {
-			if (!cubierto) {
-				return false;
-			}
-		}
-		return true;
-	}
+        while (verticesCubiertos.size() < _matriz.size()) {
+            int mejorVertice = -1;
+            int maxVecinosNoCubiertos = -1;
 
-	private int encontrarMejorVertice(boolean[] cubiertos) {
-		int mejorVertice = -1;
-		int maxVecinosNoCubiertos = -1;
+            for (int vertice : _matriz.keySet()) {
+                if (!verticesCubiertos.contains(vertice)) {
+                    ArrayList<Integer> vecinos = _matriz.get(vertice);
+                    int vecinosNoCubiertos = 0;
 
-		for (int i = 0; i < 1; i++) {
-			if (!cubiertos[i]) {
-				int vecinosNoCubiertos = contarVecinosNoCubiertos(i, cubiertos);
-				if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
-					maxVecinosNoCubiertos = vecinosNoCubiertos;
-					mejorVertice = i;
-				}
-			}
-		}
+                    for (int vecino : vecinos) {
+                        if (!verticesCubiertos.contains(vecino)) {
+                            vecinosNoCubiertos++;
+                        }
+                    }
 
-		return mejorVertice;
-	}
+                    if (vecinosNoCubiertos > maxVecinosNoCubiertos) {
+                        maxVecinosNoCubiertos = vecinosNoCubiertos;
+                        mejorVertice = vertice;
+                    }
+                }
+            }
 
-	private int contarVecinosNoCubiertos(int vertice, boolean[] cubiertos) {
-		int count = 0;
-		for (int i = 0; i < 1; i++) {
-			// if (matrizAdyacencia[vertice][i] && !cubiertos[i]) {
-			// count++;
-			// }
-		}
-		return count;
-	}
+            if (mejorVertice != -1) {
+                conjuntoDominante.add(mejorVertice);
+                verticesCubiertos.add(mejorVertice);
+
+                for (int vecino : _matriz.get(mejorVertice)) {
+                    verticesCubiertos.add(vecino);
+                }
+            } else {
+                break; // No se pudo cubrir más vértices
+            }
+        }
+        System.out.println("Conjunto Dominante: " + conjuntoDominante);
+        return conjuntoDominante;
+    }
+
+    public Set<Integer> conjuntoDominanteHeuristico2() {
+        Set<Integer> conjuntoDominante = new HashSet<>();
+        Set<Integer> verticesNoCubiertos = new HashSet<>(_matriz.keySet());
+
+        while (!verticesNoCubiertos.isEmpty()) {
+            int mejorVertice = -1;
+            int maxGrado = -1;
+
+            for (int vertice : verticesNoCubiertos) {
+                int grado = _matriz.get(vertice).size();
+                if (grado > maxGrado) {
+                    maxGrado = grado;
+                    mejorVertice = vertice;
+                }
+            }
+
+            conjuntoDominante.add(mejorVertice);
+            verticesNoCubiertos.remove(mejorVertice);
+
+            for (int vecino : _matriz.get(mejorVertice)) {
+                verticesNoCubiertos.remove(vecino);
+            }
+        }
+
+        return conjuntoDominante;
+    }
+
 
 }

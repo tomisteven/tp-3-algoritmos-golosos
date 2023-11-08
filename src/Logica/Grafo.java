@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Grafo {
+
+
 
 	private HashMap<Integer, ArrayList<Integer>> _matriz;
 
@@ -27,7 +30,6 @@ public class Grafo {
 		validarLoop(vertice, vecinoNuevo);
 		existeVecino(vertice, vecinoNuevo);
 		agregar(vertice, vecinoNuevo);
-		agregar(vecinoNuevo, vertice);
 	}
 
 	private void validarLoop(int vertice, int vecinoNuevo) {
@@ -38,6 +40,7 @@ public class Grafo {
 
 	private void agregar(int vertice, int vecinoNuevo) {
 		_matriz.get(vertice).add(vecinoNuevo);
+		_matriz.get(vecinoNuevo).add(vertice);
 	}
 
 	private void existeVecino(int vertice, int vecinoNuevo) {
@@ -78,20 +81,20 @@ public class Grafo {
 	}
 
 	private void unir(Set<Integer> conjuntoDeVertice, ArrayList<Integer> vecinos) {
-		for(int v :vecinos) {
+		for (int v : vecinos) {
 			conjuntoDeVertice.add(v);
 		}
 
 	}
 
-	 ArrayList<Integer> ordenDeRecorrido() {
+	ArrayList<Integer> ordenDeRecorrido() {
 		ArrayList<Integer> orden = new ArrayList<Integer>();
 		ArrayList<Integer> verticesPorRecorrer = vertices();
 
 		while (0 != verticesPorRecorrer.size()) {
 			int mayor = verticeConMasVecinos(verticesPorRecorrer);
 			orden.add(mayor);
-//			verticesPorRecorrer.remove(mayor);
+			// verticesPorRecorrer.remove(mayor);
 		}
 		return orden;
 	}
@@ -117,6 +120,10 @@ public class Grafo {
 		return _matriz.get(vertice);
 	}
 
+	public HashMap<Integer, ArrayList<Integer>> getMatriz() {
+		return _matriz;
+	}
+
 	public int cantidadVecinos(int vertice) {
 		return vecinos(vertice).size();
 	}
@@ -139,6 +146,23 @@ public class Grafo {
 			System.out.println();
 		}
 	}
+	public List<String> obtenerListaDeVerticesYVecinos() {
+        List<String> lista = new ArrayList<>();
+        for (Integer vertice : _matriz.keySet()) {
+            StringBuilder infoVertice = new StringBuilder();
+            infoVertice.append("Vertice ").append(vertice).append(" - ");
+            ArrayList<Integer> vecinos = _matriz.get(vertice);
+
+            for (Integer vecino : vecinos) {
+                infoVertice.append(vecino).append(" ");
+            }
+
+            lista.add(infoVertice.toString());
+        }
+
+        return lista;
+    }
+
 
 	public static void main(String[] args) {
 		Vertice vertices = new Vertice();
@@ -147,21 +171,22 @@ public class Grafo {
 		vertices.agregarVertice(3);
 		vertices.agregarVertice(4);
 		vertices.agregarVertice(5);
+		vertices.agregarVertice(6);
 
 		Grafo grafo = new Grafo(vertices);
 		grafo.agregarVecino(1, 2);
-		grafo.agregarVecino(1, 3);
-		grafo.agregarVecino(1, 4);
-		grafo.agregarVecino(1, 5);
 		grafo.agregarVecino(2, 3);
-		grafo.agregarVecino(2, 4);
-		grafo.agregarVecino(4, 5);
-		grafo.agregarVecino(5, 3);
-		
+		grafo.agregarVecino(2, 6);
+		grafo.agregarVecino(4, 2);
+		grafo.agregarVecino(5, 4);
 
-		grafo.imprimirGrafoCompleto();
-		System.out.println("Cantidad de vecinos de 1: " + grafo.cantidadVecinos(1));
-		System.out.println("conjunto dominante : " + grafo.solucion().toString());
+
+		GolosoDominante goloso = new GolosoDominante(grafo.getMatriz());
+
+		System.out.println("CAMINO MINIMO" + goloso.conjuntoDominanteHeuristico());
+		System.out.println("CAMINO MINIMO" + goloso.conjuntoDominanteHeuristico2());
+
+
 
 	}
 
