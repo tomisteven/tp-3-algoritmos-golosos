@@ -6,8 +6,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,10 +17,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import Logica.Arista;
 import Logica.GolosoDominante;
 import Logica.Grafo;
-import Logica.SolverArista;
 import Logica.Vertice;
 import javax.swing.SwingConstants;
 
@@ -137,7 +133,6 @@ public class FramePrincipal {
 		btnAgregarAlGrafo.setBounds(34, 288, 176, 23);
 		btnAgregarAlGrafo.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/* SolverArista solver = new SolverArista(_vertices); */
 				// AGREGAMOS ARISTAS
 				g.agregarVecino(Integer.parseInt(inputVerticeEnArista.getText()),
 				Integer.parseInt(inputExtremoArista.getText()));
@@ -212,8 +207,7 @@ public class FramePrincipal {
 		btnNewButton_1.addActionListener((ActionListener) new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// VEMOS LOS VERTICES
-				SolverArista solver = new SolverArista(_vertices);
-				solver.imprimirGrafo();
+				g.imprimirGrafo();
 				int tamanioAnterior = _vertices.tamanio();
 				if(_vertices.tamanio() != tamanioAnterior){
 						System.out.println("Se agrego un vertice");

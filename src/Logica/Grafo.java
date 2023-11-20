@@ -67,6 +67,20 @@ public class Grafo {
 		return _matriz.values();
 	}
 
+	/* public void esConexo() {
+		Set<Integer> conjuntoDeVertice = new HashSet<Integer>();
+		ArrayList<Integer> orden = ordenDeRecorrido();
+		while (conjuntoDeVertice.size() != orden.size())
+			for (int v : orden) {
+				unir(conjuntoDeVertice, vecinos(v));
+			}
+		if (conjuntoDeVertice.size() == orden.size()) {
+			System.out.println("Es conexo");
+		} else {
+			System.out.println("No es conexo");
+		}
+	} */
+
 	public Set<Integer> solucion() {
 		Set<Integer> ret = new HashSet<Integer>();
 		ArrayList<Integer> orden = ordenDeRecorrido();
@@ -164,7 +178,7 @@ public class Grafo {
     }
 
 
-	public static void main(String[] args) {
+ 	public static void main(String[] args) {
 		Vertice vertices = new Vertice();
 		vertices.agregarVertice(1);
 		vertices.agregarVertice(2);
@@ -181,10 +195,11 @@ public class Grafo {
 		grafo.agregarVecino(5, 4);
 
 
-		GolosoDominante goloso = new GolosoDominante(grafo.getMatriz());
+		/* GolosoDominante goloso = new GolosoDominante(grafo.getMatriz());
 
-		System.out.println("CAMINO MINIMO" + goloso.conjuntoDominanteHeuristico());
-		System.out.println("CAMINO MINIMO" + goloso.conjuntoDominanteHeuristico2());
+		System.out.println("CAMINO MINIMO" + goloso.conjuntoDominanteHeuristico()); */
+/*
+		grafo.esConexo(); */
 
 
 

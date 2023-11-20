@@ -29,9 +29,6 @@ public class Vertice {
 		return _vertices.contains(elemento);
 	}
 
-
-
-
 	private List<Integer> verticesClonados() {
 		List<Integer> ret = new ArrayList<Integer>();
 		for (Integer vertice : _vertices) {
